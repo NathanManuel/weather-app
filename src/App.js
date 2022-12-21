@@ -19,10 +19,9 @@ export default function App() {
   });
 
   const fetchData = (lat, lon) => {
-    // result.forEach((element) => {
     axios
       .get(
-        `https://api.openweathermap.org/data/2.5/weather/?lat=${lat}&lon=${lon}&units=metric&APPID=${process.env.WEATHER_KEY}`
+        `https://api.openweathermap.org/data/2.5/weather/?lat=${lat}&lon=${lon}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`
       )
       .then((resul) => {
         if (resul.status !== 200) {
@@ -42,19 +41,30 @@ export default function App() {
           setError(err.message);
         }
       });
-
-    // });
   };
 
   const getLocation = async () => {
-    axios
-      .get(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${input}&limit=50&appid=${process.env.WEATHER_KEY}`
-      )
-      .then((result) => {
-        // fetchData(result);
-        fetchData(result.data[0].lat, result.data[0].lon);
-      });
+    if (input === "") {
+      console.log("Input is null");
+      setWData(null);
+    } else {
+      axios
+        .get(
+          `http://api.openweathermap.org/geo/1.0/direct?q=${input}&limit=50&appid=${process.env.REACT_APP_API_KEY}`
+        )
+        .then((result) => {
+          if (result.status !== 200) {
+            // error coming back from server
+            throw Error("could not fetch the data for that resource");
+          }
+          fetchData(result.data[0].lat, result.data[0].lon);
+        })
+        .catch((err) => {
+          if (err.name === "AbortError") {
+            console.log("fetch aborted");
+          }
+        });
+    }
   };
 
   return (
