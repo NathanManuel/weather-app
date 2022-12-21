@@ -22,7 +22,7 @@ export default function App() {
     // result.forEach((element) => {
     axios
       .get(
-        `https://api.openweathermap.org/data/2.5/weather/?lat=${lat}&lon=${lon}&units=metric&APPID=1275b93611b16702113c58a6beab698d`
+        `https://api.openweathermap.org/data/2.5/weather/?lat=${lat}&lon=${lon}&units=metric&APPID=${process.env.WEATHER_KEY}`
       )
       .then((resul) => {
         if (resul.status !== 200) {
@@ -49,7 +49,7 @@ export default function App() {
   const getLocation = async () => {
     axios
       .get(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${input}&limit=50&appid=1275b93611b16702113c58a6beab698d`
+        `http://api.openweathermap.org/geo/1.0/direct?q=${input}&limit=50&appid=${process.env.WEATHER_KEY}`
       )
       .then((result) => {
         // fetchData(result);
