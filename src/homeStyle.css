@@ -1,0 +1,14 @@
+.local {
+  height: 30px;
+  font-size: 30px;
+  border: 0;
+  color: white;
+  background: transparent;
+  margin-bottom: 10px;
+}
+
+.topH {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
