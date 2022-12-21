@@ -7,12 +7,11 @@ import axios from "axios";
 export default function App() {
   const [lat, setLat] = useState([]);
   const [long, setLong] = useState([]);
-  const [wData, setWData] = useState(null);
+  const [wData, setWData] = useState([]);
   const [input, setInput] = useState("");
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
 
-  var items = [];
   navigator.geolocation.getCurrentPosition(function (position) {
     setLat(position.coords.latitude);
     setLong(position.coords.longitude);
@@ -30,7 +29,9 @@ export default function App() {
         }
         setIsPending(false);
         setError(null);
-        setWData(resul.data);
+        console.log(resul.data);
+        setWData([resul.data, ...wData]);
+        // setWData(resul.data);
       })
       .catch((err) => {
         if (err.name === "AbortError") {
@@ -45,7 +46,6 @@ export default function App() {
 
   const getLocation = async () => {
     if (input === "") {
-      console.log("Input is null");
       setWData(null);
     } else {
       axios
@@ -57,7 +57,10 @@ export default function App() {
             // error coming back from server
             throw Error("could not fetch the data for that resource");
           }
-          fetchData(result.data[0].lat, result.data[0].lon);
+          result.data.forEach((element) => {
+            fetchData(element.lat, element.lon);
+          });
+          // fetchData(result.data[0].lat, result.data[0].lon);
         })
         .catch((err) => {
           if (err.name === "AbortError") {
@@ -91,9 +94,13 @@ export default function App() {
       {!input && !wData && <h1>Input city name</h1>}
       {input && isPending && <div>Loading...</div>}
       {error && <div>{error}</div>}
-      {wData && (
-        <div className="blog-preview" key={wData.id}>
-          <Weather weatherData={wData} />
+      {wData[0] && (
+        <div>
+          {wData.map((weather) => {
+            <div className="blog-preview" key={weather.id}>
+              <Weather weatherData={weather} />
+            </div>;
+          })}
         </div>
       )}
     </div>
