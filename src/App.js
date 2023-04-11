@@ -14,13 +14,20 @@ export default function App() {
   const fetchData = useCallback(
     async (city) => {
       try {
+        setError("");
         setIsPending(true);
         const response = await fetch(
           `https://api.weatherapi.com/v1/forecast.json?key=${process.env.REACT_APP_WEATHER_API}&q=${city}&days=7&aqi=no&alerts=no`
         );
         const jsonD = await response.json();
-        setWData(jsonD);
-        setIsPending(false);
+        if (jsonD.location) {
+          setWData(jsonD);
+          setIsPending(false);
+        } else {
+          console.error(`Location not found for city: ${city}`);
+          setError(`Location not found for city: ${city}`);
+          setIsPending(false);
+        }
       } catch (error) {
         console.error(error);
       }
