@@ -59,57 +59,62 @@ export default function App() {
   }, [local, fetchData]);
 
   return (
-    <div className="App">
-      <div className="topH">
+    <main className="App">
+      <header className="topH">
         <h1 className="local">Weather app</h1>
-        <div>
+        <div className="search-bar">
           <div>
             <input
               type="text"
+              id="city-input"
               className="cityInput"
               value={input}
-              placeholder="City name..."
+              placeholder="Enter city name"
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(event) => {
                 if (event.key === "Enter") {
+                  setShowFavorites(false);
                   fetchData(input);
                 }
               }}
             />
-
             <button
               onClick={() => {
+                setShowFavorites(false);
                 fetchData(input);
               }}
             >
               Search
             </button>
           </div>
-          <button
-            onClick={() => {
-              fetchData(local);
-            }}
-          >
-            Local Weather
-          </button>
-          <button
-            className="weatherType"
-            onClick={() => setFahrenheit(!fahrenheit)}
-          >
-            {!fahrenheit ? <p>&deg;C</p> : <p>&deg;F</p>}
-          </button>
-          <button
-            className="favorites"
-            onClick={() => {
-              setShowFavorites(!showFavorites);
-            }}
-          >
-            Favorites
-          </button>
+          <div className="buttons">
+            <button
+              onClick={() => {
+                setShowFavorites(false);
+                fetchData(local);
+              }}
+            >
+              Local Weather
+            </button>
+            <button
+              className="weatherType"
+              onClick={() => setFahrenheit(!fahrenheit)}
+            >
+              {!fahrenheit ? <span>&deg;C</span> : <span>&deg;F</span>}
+            </button>
+            <button
+              className="favorites"
+              onClick={() => {
+                setShowFavorites(!showFavorites);
+              }}
+            >
+              Favorites
+            </button>
+          </div>
         </div>
-      </div>
-      {input && isPending && <div>Loading...</div>}
-      {error && <div>{error}</div>}
+      </header>
+      {input && isPending && <div className="header">Loading...</div>}
+      {error && <div className="header">{error}</div>}
       {wData && !showFavorites && (
         <Weather
           weatherData={wData}
@@ -133,6 +138,6 @@ export default function App() {
             </button>
           ))}
       </div>
-    </div>
+    </main>
   );
 }
