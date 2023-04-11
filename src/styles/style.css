@@ -2,12 +2,7 @@
 body {
   background-color: #001d34;
 }
-.bodyDay {
-  background-color: #0068b8;
-}
-.bodyNight {
-  background-color: #001d34;
-}
+
 .mainDay {
   background-color: #01579b;
   width: 95%;
@@ -78,6 +73,8 @@ body {
   margin: 10px 0px 0px 10px;
   font-size: 25px;
   font-family: "Recursive", sans-serif;
+  display: flex;
+  justify-content: center;
 }
 .day {
   padding: 15px;

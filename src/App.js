@@ -31,7 +31,7 @@ export default function App() {
         setIsPending(true);
         //fetch data from api.weatherapi.com to get data for specific city
         const response = await fetch(
-          `https://api.weatherapi.com/v1/forecast.json?key=${process.env.REACT_APP_WEATHER_API}&q=${city}&days=7&aqi=no&alerts=no`
+          `https://api.weatherapi.com/v1/forecast.json?key=6abc57efc0e242fdac5100234230604&q=${city}&days=7&aqi=no&alerts=no`
         );
         const jsonD = await response.json();
         if (jsonD.location) {
@@ -77,17 +77,16 @@ export default function App() {
   }, [local, fetchData]);
 
   return (
-    <main className={day ? "bodyDay" : "bodyNight"}>
+    <main className="App">
       <header className="topH">
         <h1 className="local">Weather app</h1>
-        <div className="search-bar">
+        <div>
           <div>
             <input
               type="text"
-              id="city-input"
               className="cityInput"
               value={input}
-              placeholder="Enter city name"
+              placeholder="City name..."
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(event) => {
                 if (event.key === "Enter") {
@@ -96,6 +95,7 @@ export default function App() {
                 }
               }}
             />
+
             <button
               onClick={() => {
                 setShowFavorites(false);
@@ -105,30 +105,30 @@ export default function App() {
               Search
             </button>
           </div>
-          <div className="buttons">
-            <button
-              onClick={() => {
-                setShowFavorites(false);
-                fetchData(local);
-              }}
-            >
-              Local Weather
-            </button>
-            <button
-              className="weatherType"
-              onClick={() => setFahrenheit(!fahrenheit)}
-            >
-              {!fahrenheit ? <span>&deg;C</span> : <span>&deg;F</span>}
-            </button>
-            <button
-              className="favorites"
-              onClick={() => {
-                setShowFavorites(!showFavorites);
-              }}
-            >
-              Favorites
-            </button>
-          </div>
+          <button
+            onClick={() => {
+              setShowFavorites(false);
+              fetchData(local);
+            }}
+          >
+            Local Weather
+          </button>
+          <button
+            className="weatherType"
+            onClick={() => {
+              setFahrenheit(!fahrenheit);
+            }}
+          >
+            {!fahrenheit ? <p>&deg;C</p> : <p>&deg;F</p>}
+          </button>
+          <button
+            className="favorites"
+            onClick={() => {
+              setShowFavorites(!showFavorites);
+            }}
+          >
+            Favorites
+          </button>
         </div>
       </header>
       {input && isPending && <div className="header">Loading...</div>}
