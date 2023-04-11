@@ -19,6 +19,17 @@ h1 {
   left: 5%;
 }
 
+.list {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+}
+
+.city {
+  margin-bottom: 5px;
+}
 .topH {
   display: flex;
   justify-content: center;

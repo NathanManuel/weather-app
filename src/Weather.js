@@ -28,9 +28,14 @@ const Weather = ({ weatherData, fahrenheit, favorites, setFavorites }) => {
             </p>
             <div className="header">
               {!fahrenheit ? (
-                <p>{Math.ceil(weatherData.current.temp_c)} &deg;C</p>
+                <div className="weather">
+                  <p>{Math.ceil(weatherData.current.temp_c)}</p> <p>&deg;C</p>
+                </div>
               ) : (
-                <p> {Math.ceil(weatherData.current.temp_f)} &deg;F</p>
+                <div className="weather">
+                  <p> {Math.ceil(weatherData.current.temp_f)}</p>
+                  <p> &deg;F</p>
+                </div>
               )}
             </div>
             {add ? (

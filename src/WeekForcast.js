@@ -19,7 +19,7 @@ const WeekForcast = ({ week, fahrenheit }) => {
     <div>
       {week ? (
         <div>
-          <div className="day">Week Forecast</div>
+          <div className="day">Week's Forecast</div>
           <div className="relative flex items-center">
             <MdChevronLeft
               className="opacity-50 cursor-pointer hover:opacity-100"

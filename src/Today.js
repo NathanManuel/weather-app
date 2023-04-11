@@ -24,7 +24,7 @@ const Today = ({ todayData, fahrenheit }) => {
     <div>
       {todayData ? (
         <div>
-          <div className="day">Today Forcast</div>
+          <div className="day">Today's Forecast</div>
           <div className="relative flex items-center">
             <MdChevronLeft
               className="opacity-50 cursor-pointer hover:opacity-100"
