@@ -4,14 +4,15 @@ import "./styles/style.css";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
 const Today = ({ todayData, fahrenheit }) => {
-  var slider = document.getElementById("slider");
   //slides items to the left
   const slideLeft = () => {
-    slider.scrollLeft = slider.scrollLeft - 500;
+    var slider = document.getElementById("slider");
+    slider.scrollLeft = slider.scrollLeft - 300;
   };
   //slides items to the right
   const slideRight = () => {
-    slider.scrollLeft = slider.scrollLeft + 500;
+    var slider = document.getElementById("slider");
+    slider.scrollLeft = slider.scrollLeft + 300;
   };
   const myRef = useRef(null);
   useEffect(() => {

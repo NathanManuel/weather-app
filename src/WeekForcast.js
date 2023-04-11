@@ -7,10 +7,12 @@ const WeekForcast = ({ week, fahrenheit }) => {
   var slider = document.getElementById("week_slider");
   //slides items to the left
   const slideLeft = () => {
+    var slider = document.getElementById("week_slider");
     slider.scrollLeft = slider.scrollLeft - 500;
   };
   //slides items to the right
   const slideRight = () => {
+    var slider = document.getElementById("week_slider");
     slider.scrollLeft = slider.scrollLeft + 200;
   };
   useEffect(() => {
@@ -35,7 +37,6 @@ const WeekForcast = ({ week, fahrenheit }) => {
             >
               {week.map((weather, i) => {
                 const date = new Date(weather.date);
-
                 return (
                   <div key={i} className="inline-block description ">
                     {!fahrenheit ? (
