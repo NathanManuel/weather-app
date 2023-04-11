@@ -1,7 +1,7 @@
-import "./App.css";
+import "./styles/App.css";
 import React, { useCallback, useEffect, useState } from "react";
 import Weather from "./Weather";
-import "./homeStyle.css";
+import "./styles/homeStyle.css";
 
 export default function App() {
   const [wData, setWData] = useState();
@@ -10,6 +10,8 @@ export default function App() {
   const [error, setError] = useState(null);
   const [local, setLocal] = useState();
   const [fahrenheit, setFahrenheit] = useState(false);
+  const [favorites, setFavorites] = useState([]);
+  const [showFavorites, setShowFavorites] = useState(false);
 
   const fetchData = useCallback(
     async (city) => {
@@ -24,7 +26,6 @@ export default function App() {
           setWData(jsonD);
           setIsPending(false);
         } else {
-          console.error(`Location not found for city: ${city}`);
           setError(`Location not found for city: ${city}`);
           setIsPending(false);
         }
@@ -75,6 +76,7 @@ export default function App() {
                 }
               }}
             />
+
             <button
               onClick={() => {
                 fetchData(input);
@@ -96,12 +98,41 @@ export default function App() {
           >
             {!fahrenheit ? <p>&deg;C</p> : <p>&deg;F</p>}
           </button>
+          <button
+            className="favorites"
+            onClick={() => {
+              setShowFavorites(!showFavorites);
+            }}
+          >
+            Favorites
+          </button>
         </div>
       </div>
-      {!input && !wData && <h1>Input city name</h1>}
       {input && isPending && <div>Loading...</div>}
       {error && <div>{error}</div>}
-      {wData && <Weather weatherData={wData} fahrenheit={fahrenheit} />}
+      {wData && !showFavorites && (
+        <Weather
+          weatherData={wData}
+          fahrenheit={fahrenheit}
+          favorites={favorites}
+          setFavorites={setFavorites}
+        />
+      )}
+      <div className="list">
+        {showFavorites &&
+          favorites.map((city, i) => (
+            <button
+              className="city"
+              key={i}
+              onClick={() => {
+                setShowFavorites(false);
+                fetchData(city);
+              }}
+            >
+              {city}
+            </button>
+          ))}
+      </div>
     </div>
   );
 }
