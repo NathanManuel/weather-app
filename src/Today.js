@@ -12,6 +12,14 @@ const Today = ({ todayData, fahrenheit }) => {
     var slider = document.getElementById("slider");
     slider.scrollLeft = slider.scrollLeft + 500;
   };
+  const myRef = useRef(null);
+  useEffect(() => {
+    myRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "start",
+    });
+  }, [todayData]);
   return (
     <div>
       {todayData ? (
@@ -35,7 +43,15 @@ const Today = ({ todayData, fahrenheit }) => {
                 const hour = String(date.getHours()).padStart(2, "0");
                 const minute = String(date.getMinutes()).padStart(2, "0");
                 return (
-                  <div key={i} className="inline-block description">
+                  <div
+                    key={i}
+                    className={
+                      String(now) === hour
+                        ? "inline-block description currentWeather"
+                        : "inline-block description"
+                    }
+                    ref={String(now) === hour ? myRef : null}
+                  >
                     {!fahrenheit ? (
                       <p> {Math.ceil(weather.temp_c)} &deg;C</p>
                     ) : (
@@ -46,15 +62,9 @@ const Today = ({ todayData, fahrenheit }) => {
                       alt="Weather data by WeatherAPI.com"
                       border="0"
                     />
-                    {String(now) === hour ? (
-                      <p className="now">
-                        {hour}: {minute}
-                      </p>
-                    ) : (
-                      <p>
-                        {hour}: {minute}
-                      </p>
-                    )}
+                    <p>
+                      {hour}: {minute}
+                    </p>
                   </div>
                 );
               })}
