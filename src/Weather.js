@@ -1,9 +1,23 @@
-import React from "react";
-import "./style.css";
+import React, { useEffect, useState } from "react";
+import "./styles/style.css";
 import Today from "./Today";
 import WeekForcast from "./WeekForcast";
+import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 
-const Weather = ({ weatherData, fahrenheit }) => {
+const Weather = ({ weatherData, fahrenheit, favorites, setFavorites }) => {
+  const [add, setAdd] = useState(false);
+
+  const removeCity = (cityToRemove) => {
+    const updatedCities = favorites.filter((city) => city !== cityToRemove);
+    setFavorites(updatedCities);
+  };
+  useEffect(() => {
+    if (favorites.includes(weatherData.location.name)) {
+      setAdd(true);
+    } else {
+      setAdd(false);
+    }
+  }, [weatherData, favorites]);
   return (
     <div className="main">
       {weatherData && (
@@ -19,6 +33,30 @@ const Weather = ({ weatherData, fahrenheit }) => {
                 <p> {Math.ceil(weatherData.current.temp_f)} &deg;F</p>
               )}
             </div>
+            {add ? (
+              <button
+                className="select"
+                onClick={() => {
+                  setAdd(!add);
+                  removeCity(weatherData.location.name);
+                }}
+              >
+                <AiFillStar size={30} />
+              </button>
+            ) : (
+              <button
+                className="select"
+                onClick={() => {
+                  setAdd(!add);
+                  setFavorites((prevF) => [
+                    ...prevF,
+                    weatherData.location.name,
+                  ]);
+                }}
+              >
+                <AiOutlineStar size={30} />
+              </button>
+            )}
           </div>
           <div className="flex date">
             <p className="temp">{weatherData.current.condition.text}</p>
