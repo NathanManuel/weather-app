@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
-import "./style.css";
+import "./styles/style.css";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
 const Today = ({ todayData, fahrenheit }) => {

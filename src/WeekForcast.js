@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 
-import "./style.css";
+import "./styles/style.css";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
 const WeekForcast = ({ week, fahrenheit }) => {
@@ -12,6 +12,7 @@ const WeekForcast = ({ week, fahrenheit }) => {
     var slider = document.getElementById("week_slider");
     slider.scrollLeft = slider.scrollLeft + 500;
   };
+
   return (
     <div>
       {week ? (

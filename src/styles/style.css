@@ -34,9 +34,12 @@ body {
   justify-content: space-between;
   border-radius: 40px 40px 0 0;
 }
-
+.select {
+  background: #424242;
+  margin: 10px 0px 0px 10px;
+  display: flex;
+}
 .header {
-  background-color: #424242;
   color: whitesmoke;
   margin: 10px 0px 0px 10px;
   font-size: 25px;
