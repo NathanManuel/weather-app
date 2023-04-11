@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import moment from "moment";
+import React from "react";
 import "./style.css";
 import Today from "./Today";
 import WeekForcast from "./WeekForcast";
@@ -15,9 +14,9 @@ const Weather = ({ weatherData, fahrenheit }) => {
             </p>
             <div className="header">
               {!fahrenheit ? (
-                <div>{Math.ceil(weatherData.current.temp_c)} &deg;C</div>
+                <p>{Math.ceil(weatherData.current.temp_c)} &deg;C</p>
               ) : (
-                <div> {Math.ceil(weatherData.current.temp_f)} &deg;F</div>
+                <p> {Math.ceil(weatherData.current.temp_f)} &deg;F</p>
               )}
             </div>
           </div>
