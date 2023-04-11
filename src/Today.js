@@ -4,16 +4,18 @@ import "./styles/style.css";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
 const Today = ({ todayData, fahrenheit }) => {
+  var slider = document.getElementById("slider");
+  //slides items to the left
   const slideLeft = () => {
-    var slider = document.getElementById("slider");
     slider.scrollLeft = slider.scrollLeft - 500;
   };
+  //slides items to the right
   const slideRight = () => {
-    var slider = document.getElementById("slider");
     slider.scrollLeft = slider.scrollLeft + 500;
   };
   const myRef = useRef(null);
   useEffect(() => {
+    //slides the item with the myRef useRef into view
     myRef.current.scrollIntoView({
       behavior: "smooth",
       block: "nearest",

@@ -7,11 +7,23 @@ import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 const Weather = ({ weatherData, fahrenheit, favorites, setFavorites }) => {
   const [add, setAdd] = useState(false);
 
+  //removes city from favorites
   const removeCity = (cityToRemove) => {
+    setAdd(false);
     const updatedCities = favorites.filter((city) => city !== cityToRemove);
     setFavorites(updatedCities);
   };
+
+  //add city to favorites
+  const addCity = (cityToAdd) => {
+    if (!favorites.includes(cityToAdd)) {
+      setAdd(true);
+      setFavorites((prevF) => [...prevF, weatherData.location.name]);
+    }
+  };
+
   useEffect(() => {
+    //checks if city is favorited
     if (favorites.includes(weatherData.location.name)) {
       setAdd(true);
     } else {
@@ -42,7 +54,6 @@ const Weather = ({ weatherData, fahrenheit, favorites, setFavorites }) => {
               <button
                 className="select"
                 onClick={() => {
-                  setAdd(!add);
                   removeCity(weatherData.location.name);
                 }}
               >
@@ -52,11 +63,7 @@ const Weather = ({ weatherData, fahrenheit, favorites, setFavorites }) => {
               <button
                 className="select"
                 onClick={() => {
-                  setAdd(!add);
-                  setFavorites((prevF) => [
-                    ...prevF,
-                    weatherData.location.name,
-                  ]);
+                  addCity(weatherData.location.name);
                 }}
               >
                 <AiOutlineStar size={30} />

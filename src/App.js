@@ -13,19 +13,23 @@ export default function App() {
   const [favorites, setFavorites] = useState([]);
   const [showFavorites, setShowFavorites] = useState(false);
 
+  // The purpose of this function is to fetch weather data from an external API based on the city name
   const fetchData = useCallback(
     async (city) => {
       try {
         setError("");
         setIsPending(true);
+        //fetch data from api.weatherapi.com to get data for specific city
         const response = await fetch(
           `https://api.weatherapi.com/v1/forecast.json?key=${process.env.REACT_APP_WEATHER_API}&q=${city}&days=7&aqi=no&alerts=no`
         );
         const jsonD = await response.json();
         if (jsonD.location) {
+          //save data of city
           setWData(jsonD);
           setIsPending(false);
         } else {
+          //in case that the city is not found
           setError(`Location not found for city: ${city}`);
           setIsPending(false);
         }
@@ -37,6 +41,7 @@ export default function App() {
   );
 
   const getCityByIP = useCallback(async () => {
+    //finds the city in witch the device is located by ip
     try {
       const response = await fetch("https://ipapi.co/json/");
       const data = await response.json();
@@ -48,11 +53,14 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    //saves city of device
     getCityByIP().then((city) => {
       setLocal(city);
     });
   }, [getCityByIP, setLocal]);
+
   useEffect(() => {
+    //on load runs a fetch to get the data for local weather
     if (local) {
       fetchData(local);
     }
