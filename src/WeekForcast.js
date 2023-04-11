@@ -1,23 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import "./styles/style.css";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
 const WeekForcast = ({ week, fahrenheit }) => {
+  var slider = document.getElementById("week_slider");
   const slideLeft = () => {
-    var slider = document.getElementById("week_slider");
-    slider.scrollLeft = slider.scrollLeft - 500;
+    slider.scrollLeft = slider.scrollLeft - 200;
   };
   const slideRight = () => {
-    var slider = document.getElementById("week_slider");
-    slider.scrollLeft = slider.scrollLeft + 500;
+    slider.scrollLeft = slider.scrollLeft + 200;
   };
+  useEffect(() => {
+    if (slider) slider.scrollLeft = slider.scrollLeft - 500;
+  }, [week, slider]);
 
   return (
     <div>
       {week ? (
         <div>
-          <div className="day">Week Forcast</div>
+          <div className="day">Week Forecast</div>
           <div className="relative flex items-center">
             <MdChevronLeft
               className="opacity-50 cursor-pointer hover:opacity-100"
