@@ -13,6 +13,16 @@ export default function App() {
   const [favorites, setFavorites] = useState([]);
   const [showFavorites, setShowFavorites] = useState(false);
 
+  const dateNow = new Date();
+  const now = dateNow.getHours();
+  const [day, setDay] = useState(true);
+
+  useEffect(() => {
+    if (now >= 18 || now <= 6) {
+      setDay(false);
+    }
+  }, [setDay, now]);
+
   // The purpose of this function is to fetch weather data from an external API based on the city name
   const fetchData = useCallback(
     async (city) => {
@@ -67,7 +77,7 @@ export default function App() {
   }, [local, fetchData]);
 
   return (
-    <main className="App">
+    <main className={day ? "bodyDay" : "bodyNight"}>
       <header className="topH">
         <h1 className="local">Weather app</h1>
         <div className="search-bar">

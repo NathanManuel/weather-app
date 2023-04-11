@@ -1,9 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Recursive&display=swap");
 body {
+  background-color: #001d34;
+}
+.bodyDay {
   background-color: #0068b8;
 }
-.main {
+.bodyNight {
+  background-color: #001d34;
+}
+.mainDay {
   background-color: #01579b;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 40px;
+  margin-bottom: 20px;
+}
+.mainNight {
+  background-color: #003660;
   width: 95%;
   margin-left: auto;
   margin-right: auto;
@@ -24,11 +38,10 @@ body {
   background-color: #0068b8;
   border-radius: 20px;
 }
-
 .weather {
   display: flex;
 }
-.top {
+.topDay {
   height: auto;
   align-items: center;
   background-color: #424242;
@@ -39,8 +52,24 @@ body {
   justify-content: space-between;
   border-radius: 40px 40px 0 0;
 }
-.select {
+.topNight {
+  height: auto;
+  align-items: center;
+  background-color: #282828;
+  color: whitesmoke;
+  padding: 10px;
+  font-family: "Recursive", sans-serif;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 40px 40px 0 0;
+}
+.selectDay {
   background: #424242;
+  margin: 10px 0px 0px 10px;
+  display: flex;
+}
+.selectNight {
+  background: #282828;
   margin: 10px 0px 0px 10px;
   display: flex;
 }
@@ -50,45 +79,41 @@ body {
   font-size: 25px;
   font-family: "Recursive", sans-serif;
 }
-
 .day {
   padding: 15px;
   color: whitesmoke;
   font-family: "Recursive", sans-serif;
   font-size: 24px;
   font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-
 .now {
   color: rgb(34, 34, 34);
 }
-
 .temp {
   padding: 15px;
   color: whitesmoke;
   font-family: "Recursive", sans-serif;
   font-size: 18px;
 }
-
 .flex {
   display: flex;
   justify-content: space-between;
 }
-
 .f {
   display: flex;
 }
 .date {
   align-items: center;
 }
-
 .sunrise-sunset {
   padding: 15px;
   color: whitesmoke;
   font-family: "Recursive", sans-serif;
   font-size: 16px;
 }
-
 .description {
   padding: 15px;
   color: whitesmoke;
@@ -96,7 +121,6 @@ body {
   font-size: 14px;
   font-weight: 600;
 }
-
 .button {
   width: 35px;
   height: 35px;

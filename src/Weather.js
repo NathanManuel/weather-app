@@ -6,6 +6,7 @@ import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 
 const Weather = ({ weatherData, fahrenheit, favorites, setFavorites }) => {
   const [add, setAdd] = useState(false);
+  const days = weatherData.current.is_day;
 
   //removes city from favorites
   const removeCity = (cityToRemove) => {
@@ -31,10 +32,10 @@ const Weather = ({ weatherData, fahrenheit, favorites, setFavorites }) => {
     }
   }, [weatherData, favorites]);
   return (
-    <div className="main">
+    <div className={days !== 0 ? "mainDay" : "mainNight"}>
       {weatherData && (
         <div>
-          <div className="top">
+          <div className={days !== 0 ? "topDay" : "topNight"}>
             <p className="header">
               {weatherData.location.name} : {weatherData.location.country}
             </p>
@@ -52,7 +53,7 @@ const Weather = ({ weatherData, fahrenheit, favorites, setFavorites }) => {
             </div>
             {add ? (
               <button
-                className="select"
+                className={days !== 0 ? "selectDay" : "selectNight"}
                 onClick={() => {
                   removeCity(weatherData.location.name);
                 }}
@@ -61,7 +62,7 @@ const Weather = ({ weatherData, fahrenheit, favorites, setFavorites }) => {
               </button>
             ) : (
               <button
-                className="select"
+                className={days !== 0 ? "selectDay" : "selectNight"}
                 onClick={() => {
                   addCity(weatherData.location.name);
                 }}
