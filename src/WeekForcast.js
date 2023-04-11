@@ -5,11 +5,11 @@ import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
 const WeekForcast = ({ week, fahrenheit }) => {
   const slideLeft = () => {
-    var slider = document.getElementById("slider");
+    var slider = document.getElementById("week_slider");
     slider.scrollLeft = slider.scrollLeft - 500;
   };
   const slideRight = () => {
-    var slider = document.getElementById("slider");
+    var slider = document.getElementById("week_slider");
     slider.scrollLeft = slider.scrollLeft + 500;
   };
   return (
@@ -25,14 +25,14 @@ const WeekForcast = ({ week, fahrenheit }) => {
               size={30}
             />
             <div
-              id="slider"
-              className="w-full h-full overflow-x-scroll scroll whitespace-nowrap scroll-smooth scrollbar-hide"
+              id="week_slider"
+              className="w-full h-full overflow-x-scroll scroll  whitespace-nowrap scroll-smooth scrollbar-hide"
             >
               {week.map((weather, i) => {
                 const date = new Date(weather.date);
 
                 return (
-                  <div key={i} className="inline-block description">
+                  <div key={i} className="inline-block description ">
                     {!fahrenheit ? (
                       <p> {Math.ceil(weather.day.avgtemp_c)} &deg;C</p>
                     ) : (
