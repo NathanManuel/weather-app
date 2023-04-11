@@ -1,74 +1,68 @@
 import "./App.css";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Weather from "./Weather";
 import "./homeStyle.css";
-import axios from "axios";
 
 export default function App() {
   const [lat, setLat] = useState([]);
   const [long, setLong] = useState([]);
-  const [wData, setWData] = useState([]);
+  const [wData, setWData] = useState();
   const [input, setInput] = useState("");
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
+  const [local, setLocal] = useState();
+  const [fahrenheit, setFahrenheit] = useState(false);
 
-  navigator.geolocation.getCurrentPosition(function (position) {
-    setLat(position.coords.latitude);
-    setLong(position.coords.longitude);
-  });
-
-  const fetchData = (lat, lon) => {
-    axios
-      .get(
-        `https://api.openweathermap.org/data/2.5/weather/?lat=${lat}&lon=${lon}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`
-      )
-      .then((resul) => {
-        if (resul.status !== 200) {
-          // error coming back from server
-          throw Error("could not fetch the data for that resource");
-        }
-        setIsPending(false);
-        setError(null);
-        console.log(resul.data);
-        setWData([resul.data, ...wData]);
-        // setWData(resul.data);
-      })
-      .catch((err) => {
-        if (err.name === "AbortError") {
-          console.log("fetch aborted");
-        } else {
-          // auto catches network / connection error
-          setIsPending(false);
-          setError(err.message);
-        }
-      });
-  };
-
-  const getLocation = async () => {
-    if (input === "") {
-      setWData(null);
-    } else {
-      axios
-        .get(
-          `http://api.openweathermap.org/geo/1.0/direct?q=${input}&limit=50&appid=${process.env.REACT_APP_API_KEY}`
-        )
-        .then((result) => {
-          if (result.status !== 200) {
-            // error coming back from server
-            throw Error("could not fetch the data for that resource");
-          }
-          result.data.forEach((element) => {
-            fetchData(element.lat, element.lon);
-          });
-          // fetchData(result.data[0].lat, result.data[0].lon);
-        })
-        .catch((err) => {
-          if (err.name === "AbortError") {
-            console.log("fetch aborted");
-          }
-        });
+  const fetchData = async () => {
+    try {
+      setIsPending(true);
+      const response = await fetch(
+        `https://api.weatherapi.com/v1/forecast.json?key=${process.env.REACT_APP_WEATHER_API}&q=${input}&days=7&aqi=no&alerts=no`
+      );
+      const jsonD = await response.json();
+      setWData(jsonD);
+      setIsPending(false);
+    } catch (error) {
+      console.error(error);
     }
   };
+
+  const localData = useCallback(async () => {
+    try {
+      setIsPending(true);
+      const response = await fetch(
+        `https://api.weatherapi.com/v1/forecast.json?key=${process.env.REACT_APP_WEATHER_API}&q=${local}&days=7&aqi=no&alerts=no`
+      );
+      const jsonD = await response.json();
+      setWData(jsonD);
+      setIsPending(false);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [setWData, setIsPending, local]);
+
+  const getLocation = useCallback(async () => {
+    try {
+      const url = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${long}&key=${process.env.REACT_APP_LOCATION_API}`;
+      const response = await fetch(url);
+      const data = await response.json();
+      const city = data.results[0].components.city;
+      setLocal(city);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [lat, long, setLocal]);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      setLat(position.coords.latitude);
+      setLong(position.coords.longitude);
+    });
+  }, [setLat, setLong]);
+
+  useEffect(() => {
+    getLocation();
+  }, [getLocation]);
 
   return (
     <div className="App">
@@ -83,26 +77,27 @@ export default function App() {
           />
           <button
             onClick={() => {
-              getLocation();
+              fetchData();
             }}
           >
             Search
           </button>
-          <button onClick={() => fetchData(lat, long)}>Local Weather</button>
+          <button
+            onClick={() => {
+              localData();
+            }}
+          >
+            Local Weather
+          </button>
+          <button onClick={() => setFahrenheit(!fahrenheit)}>
+            {!fahrenheit ? <p>&deg;C</p> : <p>&deg;F</p>}
+          </button>
         </div>
       </div>
       {!input && !wData && <h1>Input city name</h1>}
       {input && isPending && <div>Loading...</div>}
       {error && <div>{error}</div>}
-      {wData[0] && (
-        <div>
-          {wData.map((weather) => {
-            <div className="blog-preview" key={weather.id}>
-              <Weather weatherData={weather} />
-            </div>;
-          })}
-        </div>
-      )}
+      {wData && <Weather weatherData={wData} fahrenheit={fahrenheit} />}
     </div>
   );
 }
